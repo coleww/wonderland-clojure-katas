@@ -4,7 +4,9 @@
 
 (deftest test-map-letters
   (testing "can encode 2 letters"
-    (is (= "e" (map-letters "s" "m")))))
+    (is (= "e" (map-letters "s" "m" true)))
+    (is (= "o" (map-letters "s" "e" false)))
+    ))
 
 (deftest test-encode
   (testing "can encode given a secret keyword"
