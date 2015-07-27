@@ -2,6 +2,10 @@
   (:require [clojure.test :refer :all]
             [alphabet-cipher.coder :refer :all]))
 
+(deftest test-map-letters
+  (testing "can encode 2 letters"
+    (is (= "e" (map-letters "s" "m")))))
+
 (deftest test-encode
   (testing "can encode given a secret keyword"
     (is (= "hmkbxebpxpmyllyrxiiqtoltfgzzv"
