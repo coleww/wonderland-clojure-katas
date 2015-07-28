@@ -3,6 +3,12 @@
             [doublets.solver :refer :all]))
 
 (deftest solver-test
+  (testing "one word away helper"
+    (is (= true (is-one-letter-away "head" "heal")))
+    (is (= false (is-one-letter-away "heed" "heal")))
+    )
+
+
   (testing "with word links found"
     (is (= ["head" "heal" "teal" "tell" "tall" "tail"]
            (doublets "head" "tail")))
