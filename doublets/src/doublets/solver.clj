@@ -14,16 +14,28 @@
 (defn get-possibilities [word1 words]
   (filter #(if (=  (count word1) (count %)) (is-one-letter-away word1 %) false) words))
 
+(defn wordMap [words]
+  (reduce #(assoc %1 (keyword %2) (get-possibilities %2 words) ) {} words))
+
 (defn doublets [word1 word2]
-  (let [nexts (get-possibilities word1 words)]
-    (if (= 0 (count nexts))
-      nil
-      (if (= -1 (.indexOf nexts word2))
-        ;; not reached w2 yet, recurse
-        (conj nil (doublets (nth nexts 0)  word2) word1)
-        word2
-        ))
-    )
-
-
-  )
+  (let [the-map (wordMap words)
+        to-search (atom [[word1]])
+        visited (atom [])
+        doit (atom true)
+        it (atom [])]
+    (while (and @doit (pos? (count @to-search)))
+      (let [curry (first @to-search)
+            current (last curry)
+            nexts ((keyword current) the-map)]
+        (if (= current word2)
+          (do
+            (reset! it curry)
+            (reset! doit false)) ;; IF FOUND! WE DID IT! WE ARE DONEZO!
+          (do
+            (swap! to-search rest)
+            (if (and  (pos? (count nexts)) (= -1 (.indexOf @visited current))  )
+              (do
+                (swap! to-search concat (map #(conj curry %)  nexts))
+                (swap! visited conj current))
+              )))))
+    @it))
