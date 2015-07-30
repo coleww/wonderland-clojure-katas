@@ -4,9 +4,9 @@
   [num times]
   (->
    (* num times)
-   (str)
+   str
    (clojure.string/split #"")
-   (sort)))
+   sort))
 
 (defn check-num
   [num]
