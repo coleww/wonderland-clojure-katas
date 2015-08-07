@@ -97,16 +97,38 @@
                                     (assoc :g g)
                                     (assoc :h h)
                                     )]
-                    (if (= (:content el) :E) (reset! found-it el) )
+                    (if (= (:content el) :E) (reset! found-it updated-el) )
                     (swap! open-list conj updated-el)))))))))
 
 
+    (let [paths (atom [])
+          maaze (atom the-maze)]
+
+      (while (boolean @found-it)
+        (swap! paths conj @found-it)
+        (reset! found-it (:parent @found-it)))
+
+      (reset! maaze (mapv #(mapv (fn [x] x)  %) @maaze))
+      (println (count @paths))
+      (while (pos? (count @paths))
+        (let [car (first @paths)]
+
+          (->>
+           (update-in @maaze [(:y car) (:x car) :content] (fn [x] :x))
+
+           (reset! maaze))
+
+          (swap! paths rest))
+
+        )
+      (mapv (fn [ro] (mapv (fn [c] (:content c)) ro)) @maaze)
+      )
     ;; this is the end square
     ;@found-it
     ;; follow its parentage backward
     ;; WAIT are the pointers even correct? fuck
     ;; RECONSTRUCT THE PATH AND RETURN! VICTORY!
-    []
+
     ))
 
 (def mazy
