@@ -30,7 +30,7 @@
         y (:y cell)
         x-max (count (first maze))
         y-max (count maze)
-        diffs [[1 1] [0 1] [0 -1] [1 0] [-1 0] [1 -1] [-1 1] [-1 -1]]
+        diffs [[0 1] [0 -1] [1 0] [-1 0]]
         offs (map #(vector (+ x (first %)) (+ y (second %))) diffs)
         in-offs (filter #(and (< -1 (second %) y-max) (< -1 (first %) x-max)) offs)]
     (map #(nth (nth maze (second %)) (first %)) in-offs)))
@@ -69,7 +69,7 @@
 
           (doseq [el neighbours]
             ; if this el is not in the closed-list, and it is not a wall
-            (if (or (not (is-in-list @closed-list el)) (not= 1  (:content el)))
+            (if (and (not (is-in-list @closed-list el)) (not= 1  (:content el)))
               (if (is-in-list @open-list el)
                  ; if it is in the open list
                 (do
@@ -109,7 +109,7 @@
         (reset! found-it (:parent @found-it)))
 
       (reset! maaze (mapv #(mapv (fn [x] x)  %) @maaze))
-      (println (count @paths))
+
       (while (pos? (count @paths))
         (let [car (first @paths)]
 
@@ -118,24 +118,5 @@
 
            (reset! maaze))
 
-          (swap! paths rest))
-
-        )
-      (mapv (fn [ro] (mapv (fn [c] (:content c)) ro)) @maaze)
-      )
-    ;; this is the end square
-    ;@found-it
-    ;; follow its parentage backward
-    ;; WAIT are the pointers even correct? fuck
-    ;; RECONSTRUCT THE PATH AND RETURN! VICTORY!
-
-    ))
-
-(def mazy
-  [[:S 0 0 1]
-                [1  1 0 0]
-                [1  0  0 1]
-                [1  1  0 :E]])
-
-;[(+ 1 1)]
-;(vector 0 1)
+          (swap! paths rest)))
+      (mapv (fn [ro] (mapv (fn [c] (:content c)) ro)) @maaze))))

@@ -37,7 +37,7 @@
 
 (deftest test-get-neighbours
   (testing "getting neighbours"
-    (is (= (get-neighbours {:x 1 :y 1} (map-maze [["D" "O" "A"] [1 2 3] [4 5 6]]))    '({:x 2, :y 2, :content 6, :g 0, :h 0, :f 0, :parent nil} {:x 1, :y 2, :content 5, :g 0, :h 0, :f 0, :parent nil} {:x 1, :y 0, :content "O", :g 0, :h 0, :f 0, :parent nil} {:x 2, :y 1, :content 3, :g 0, :h 0, :f 0, :parent nil} {:x 0, :y 1, :content 1, :g 0, :h 0, :f 0, :parent nil} {:x 2, :y 0, :content "A", :g 0, :h 0, :f 0, :parent nil} {:x 0, :y 2, :content 4, :g 0, :h 0, :f 0, :parent nil} {:x 0, :y 0, :content "D", :g 0, :h 0, :f 0, :parent nil})))))
+    (is (= (get-neighbours {:x 1 :y 1} (map-maze [["D" "O" "A"] [1 2 3] [4 5 6]]))    '({:x 1, :y 2, :content 5, :g 0, :h 0, :f 0, :parent nil} {:x 1, :y 0, :content "O", :g 0, :h 0, :f 0, :parent nil} {:x 2, :y 1, :content 3, :g 0, :h 0, :f 0, :parent nil} {:x 0, :y 1, :content 1, :g 0, :h 0, :f 0, :parent nil} )))))
 
 
 (deftest test-get-g-cost
